@@ -9,42 +9,31 @@ int N,M,T = INF,Cases = 0;
 
 typedef struct Point
 {
-    long long x;
-    long long y;
+    long double x;
+    long double y;
     int num;
 }Point;
 bool PointCmp(Point a,Point b)
 {
-    if(a.y==0&&a.x>0)
-            {
-                if(b.y==0&&b.x>0) return a.num<b.num;
-                return true;
-            }
-    else if(b.y==0&&b.x>0) return false;
-    if(a.y*b.y<0) return a.y>b.y;
-    int det = a.x  * b.y  - b.x  * a.y ;
-    if (det < 0)
-        return true;
-    if (det > 0)
-        return false;
-    return a.num < b.num;
+    return atan2(a.x,a.y) < atan2(b.x,b.y);
 }
 Point p[MAXN];
-int x,y;
+double x,y;
 int main(){
     while(T-- && ~(scanf("%d",&N))){
         for (int i= 0;i < N;i++){
-            scanf("%d%d",&x,&y);
+            scanf("%lf%lf",&x,&y);
             p[i].x = x,p[i].y = y,p[i].num = i+1;
         }
         sort(p,p+N,PointCmp);
         p[N] = p[0];
-        long double co = -1.5;
+        long double ang = 10*acos(-1.0);
         int a1 = -1,a2= -1;
         for (int i = 0;i < N;i++){
-            long double tmpco = double (p[i].x*p[i+1].x+p[i].y*p[i+1].y) /  double(sqrt(p[i].x*p[i].x+p[i].y*p[i].y)*sqrt(p[i+1].x*p[i+1].x+p[i+1].y*p[i+1].y));
-            if (tmpco > co){
-                co = tmpco;
+        	long double tmpang = atan2(p[i+1].x,p[i+1].y)-atan2(p[i].x,p[i].y);
+        	if (tmpang < 0) tmpang += 2*acos(-1.0);
+            if (tmpang < ang ){
+                ang = tmpang;
                 a1 = p[i].num;
                 a2 = p[i+1].num;
             }
