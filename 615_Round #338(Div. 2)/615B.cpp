@@ -9,20 +9,13 @@ vector <int> edge[MAXN];
 long long d[MAXN];
 int x,y;
 long long ans;
-bool visited[MAXN];
-void dfs(int x,long long l){
-    if (l*d[x] > ans) ans = l*d[x];
-    visited[x] = true;
-    for (vector<int>::iterator it = edge[x].begin();it != edge[x].end();it++){
-        if (!visited[*it] && *it > x) dfs(*it,l+1);
-    }
-}
+long long dp[MAXN];
 int main(){
     //ios_base::sync_with_stdio(0);
 
     //freopen("input.txt", "r", stdin); //++++You fool, comment this line++++//
     while(T-- && ~(scanf("%d%d",&N,&M))){
-        memset(visited,false,sizeof(visited));
+        memset(dp,false,sizeof(dp));
         for (int i = 0;i <= N;i++) edge[i].clear();
         memset(d,0,sizeof(d));
         ans = 0;
@@ -33,9 +26,11 @@ int main(){
             d[x]++;
             d[y]++;
         }
-        for (int i = 0;i <= N;i++) sort(edge[i].begin(),edge[i].end());
         for (int i = 1;i <= N;i++){
-            if (!visited[i]) dfs(i,1);
+            dp[i] = 1;
+            for (vector<int>::iterator it = edge[i].begin();it != edge[i].end();it++)
+                if (*it < i) dp[i] = max(dp[i],dp[*it]+1);
+            ans = max(ans,dp[i]*d[i]);
         }
         printf("%I64d\n",ans);
     }
