@@ -1,26 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MAXN = 100010;
+const int MAXN = 1000010;
 const int INF = 1e9+7;
 const double eps = 1e-10;
 int N,M,T = INF,Cases = 0;
-long long minodd,sum,x;
+
 int main(){
 	//ios_base::sync_with_stdio(0);
 
 	//freopen("input.txt", "r", stdin),cerr << "Attention, SB!!!\nAttention, SB!!!\n" << endl;	//++++You fool, comment this line++++//
 	//scanf("%d",&T);
-	while(T-- && ~(scanf("%d",&N))){
-		minodd = INF;
-		sum = 0;
-		for (int i = 0;i < N;i++){
-			scanf("%I64d",&x);
-			if (x&1) minodd = min(x,minodd);
-			sum += x;
-		}
-		if (sum & 1) sum-=minodd;
-		printf("%I64d\n",sum);
+	long long a,b,c;
+	while(T-- && ~(scanf("%I64d%I64d%I64d",&a,&b,&c))){
+		if (b==a || (b-a)*c>0 && abs(b-a)%abs(c)==0) puts("YES");
+		else puts("NO");
 	}
 	return 0;
 }
